@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+% More styles for bullets
+\usepackage{pifont}
+\usepackage[left=25mm, top=25mm, bottom=30mm, right=25mm]{geometry}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=cyan]{hyperref}
+% \usepackage[style=authoryear-ibid,backend=biber,maxbibnames=99,maxcitenames=2,uniquelist=false,isbn=false,url=true,eprint=false,doi=true,giveninits=true,uniquename=init]{biblatex} % Allows you to do citations - does Harvard style and compatible with Zotero
+\newcommand\titleofdoc{Assignment 4}
+\newcommand\GroupName{Machine Learning}
+\begin{document}
+\begin{center}
+        \vspace*{2cm} % Adjust spacings to ensure the title page is generally filled with text
+
+        \Huge{\titleofdoc} 
+            
+        \vspace{2 cm}
+        \Large{\GroupName}
+       
+        \vspace{0.25cm}
+        \large{Yuyutsu Saini}
+
+        
+        \vspace{0.25cm}
+        \large{ 2020MT60571}
+        
+        \vspace{0.25cm}
+        \large{ Rishi Jain}
+
+        
+        \vspace{0.25cm}
+        \large{2020CS10373}     
+       
+        \vspace{3 cm}
+        \Large{$28^{th}$ November, $2022$}
+        
+        \vspace{0.25 cm}
+        \Large{COL 774: Machine Learning}
+
+            
+        \vspace{0.25 cm}
+        \Large{Kaggle Team Name: Mission Possimpible}
+\end{center}
+\vspace{1cm}
+\newpage
+\section*{Libraries Used}
+
+\begin{itemize}
+% import os
+% import torch
+% import pandas as pd
+% import numpy as np
+% import matplotlib.pyplot as plt
+% from torch.utils.data import Dataset, DataLoader
+% from torchvision import datasets, models, transforms, utils
+% from torch.optim import lr_scheduler
+% import torch.nn as nn
+% import torch.nn.functional as F
+% import torch.optim as optim
+% # # Ignore warnings
+% # import warnings
+% # warnings.filterwarnings("ignore")
+
+% import math
+% import time
+% import tqdm
+% import sys
+% import copy
+% import requests
+
+% plt.ion()   # interactive mode
+% from PIL import Image
+% import torch.nn.functional as F
+
+    \item numpy
+    \item nltk
+    \item sys
+    \item pandas
+    \item os
+    \item re
+    \item time
+    \item torch
+    \item torchtext
+    \item transformers
+    \item tqdm
+    \item copy
+    \item requests
+    \item random
+    \item sklearn
+    \item csv
+\end{itemize}
+\tableofcontents
+\newpage
+\section{Non-Competitive Part}
+\subsection{Convolutional Neural Network}
+\subsubsection{Architecture}
+We implemented Convolutional Neural Network on the dataset of book covers with the following parameters:
+\begin{itemize}
+    \item CONV1: Kernel Size → 5x5, Input Size → 3, Output Size → 32
+    \item POOL1 : Kernel Size → 2x2
+    \item CONV2 : Kernel Size → 5x5, Input Size → 32, Output Size → 64
+    \item POOL2 : Kernel Size → 2x2
+    \item CONV3 : Kernel Size → 5x5, Input Size → 64, Output Size → 128
+    \item POOL3 : Kernel Size → 2x2
+    \item Fully Connected Layer with 128 outputs
+    \item Fully Connected Layer with 30 outputs
+\end{itemize}
+
+We have used ReLU as the activation function for all layers apart from the Pooling layers and used cross entropy loss as loss function. \\
+\\
+Batch Size used in Stochastic Descent = 100 \\
+Number of epochs = 10 \\
+Time taken to train the model = 16m 4s \\
+Accuracy over the Test set is = 12.6 \%
+
+\subsection{Recurrent Neural Network}
+\subsubsection{Architecture}
+
+\textbf{Note : -}  Download glove.6B.300d before running the code. Place it in input directory.
+A bidirectional RNN was implemented with the following architecture using the \textit{Pytorch} library.
+\begin{itemize}
+    \item Embedding Layer : Initialized with the vocabulary vectors from the pretrained \textit{GloVe} embedding(\texttt{glove\_6b\_300d}).
+\item RNN layer : Hidden layer size → 128, bidirectional → True, batchfirst → True
+\item MLP layers
+\begin{itemize}
+    \item FC1 : Fully Connected Layer with output 128
+    \item FC2 : Fully Connected Layer with input 128 and output 30 (number of classes)
+\end{itemize}
+\end{itemize}
+Batch Size used in Stochastic Descent = 100 \\
+Number of epochs = 20 \\
+Time taken to train the model = 3m 32s \\
+Accuracy over the Test set is = 45.42 \%\\
+\\
+Further We have experimented with removing stop words and stemmed the words. The best accuracy that we got with RNN is 53 \%.\\
+Number of epochs = 40 \\
+Time taken to train the model = 7m 31s \\
+Accuracy over the Test set is = 53.20 \%
+
+\section{Competitive Part}
+In this part, we are only using the name of the book to predict the genre of the book. Convolution Neural Network overfits the training data set. We experimented with resnet, vgg, squeeznet, alexnet, densenet  and got the accuracy over the CNN was very less and we were able to take the CNN accuracy to slightly less than 29 percent using vgg. So, only RNN was used for training purposes. \\
+\\
+We are using  BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding by Jacob Devlin, Ming-Wei Chang, Kenton Lee and Kristina Toutanova. It’s a bidirectional transformer pretrained using a combination of masked language modeling objective and next sentence prediction on a large corpus comprising the Toronto Book Corpus for predicting the genre over 30 classes. \\
+\\
+First, we removed stopwords using NLTK and then tockenized the book names to get attention mask and special tokens using a BERT pre-trained tokenizer.We have used stochastic gradient descent to optimize the model with batch size 16. \\
+\\
+% Then we have used 
+Accuracy over the non competitive test data set = 62.52 \% \\
+Time Taken = 35.32 minutes \\
+Epochs =5
+\end{document}
